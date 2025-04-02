@@ -2,18 +2,17 @@ const os = require('os');
 
 // 1. get os platform & user info
 
-// console.log('OS Platform:', os.platform());
-// console.log("User Info:", os.userInfo());
+ console.log('OS Platform:', os.platform());
+ console.log("User Info:", os.userInfo());
 
 
 
 // 2. Get the Os CPU architecture
-
-// console.log('CPU Architecture:', os.arch());
+console.log('CPU Architecture:', os.arch());
 
 
 // 3. Get the Os CPU core info
-// console.log('CPU Core Info:', os.cpus());
+console.log('CPU Core Info:', os.cpus());
 
 
 // 4. Get the Free memory of the system

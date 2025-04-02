@@ -1,7 +1,9 @@
+//learning crypto module in nodejs
 const crypto = require("crypto")
 
 // 1. randomBytes
 const randomvalues = crypto.randomBytes(100);
+//gives buffer output
 
 console.log(randomvalues.toString("hex"))
 
@@ -21,5 +23,5 @@ console.log(randomvalues.toString("hex"))
 //     console.log("Something went wrong")
 // }
 
-// *encryption and decryption
+// *what is encryption and decryption ?
 
