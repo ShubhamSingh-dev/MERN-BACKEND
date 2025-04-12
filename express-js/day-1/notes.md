@@ -5,6 +5,7 @@ put.
 patch.
 delete.
 Express.js Advanced HTTP Methods
+
 1. Introduction and Setup
 What is Express.js?
 
@@ -29,6 +30,8 @@ let users = [
     { id: 1, name: 'Alice', email: 'alice@example.com' },
     { id: 2, name: 'Bob', email: 'bob@example.com' },
 ];
+
+
 2. GET Requests
 Purpose: Fetch data from the server.
 Examples:

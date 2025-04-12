@@ -1,45 +1,47 @@
 import express from "express";
 import userData from "./data/data.js";
+
 const app = express();
-app.use(express.json());
+// Middleware to parse JSON request body
+app.use(express.json()); //this is used to parse the json data from the request body
 
 const PORT = 8080;
 
-// *1. GET Request ( it is for fetching data from server)
+// *1. GET request(It is used to retrieve/fetch data from the server)
 
 app.get("/", (req, res) => {
-  res.status(200).send("Hello! World");
+  res.status(200).send("Hello World!");
 });
 
-// Industry Standards
+//Industry standard
 app.get("/api/v1/users", (req, res) => {
-  const { name } = req.query;
+  // console.log(req.query); //query parameters
+  const { name } = req.query; //destructuring
 
   if (name) {
-    const user = userData.filter((user) => {
-      return user.name === name;
-    });
-    res.status(200).send(user);
+    const filteredUsers = userData.filter((user) => user.name === name);
+    return res.status(200).json(filteredUsers); //json response
   }
 
-  // query params
+  //query parameters
   res.status(200).send(userData);
 });
 
 // router params
 app.get("/api/v1/users/:id", (req, res) => {
-  const { id } = req.params;
-  const parsedId = parseInt(id);
-
-  const user = userData.find((user) => user.id === parsedId);
-
+  // console.log(req.params); //params
+  //we destructure id from params to get the user id
+  const { id } = req.params; //destructuring
+  //  currently it is a string but we need to convert it to number
+  const parseId = parseInt(id); //parseInt is used to convert string to number
+  const user = userData.find((user) => user.id === parseId); //find is used to find the user with the given id
+  //if user is not found then we send a 404 status code and a message
   res.status(200).send(user);
 });
 
-// *2. POST Request ( it is for sending data to server)
-
+// *2. POST request(It is for sending data to server)
 app.post("/api/v1/users", (req, res) => {
-  const { name, displayname } = req.body;
+  const { name, displayname } = req.body; //destructuring needs to be exactly same as the data in the request body that is sent from the client
 
   const newUser = {
     id: userData.length + 1,
@@ -47,76 +49,70 @@ app.post("/api/v1/users", (req, res) => {
     displayname,
   };
 
-  userData.push(newUser);
-
+  userData.push(newUser); //pushing the new user to the userData array
   res.status(201).send({
-    message: "User Created",
+    message: "User created successfully",
     data: newUser,
-  });
+  }); //201 is the status code for created
 });
 
-// *3. PUT Request ( UPDATE ALL FIELDS);
-
+// *3. PUT request(It is used to update data on the server) --> USed when we want to update the entire data of the user
 app.put("/api/v1/users/:id", (req, res) => {
   const {
     body,
     params: { id },
+  } = req; //This syntax is another way of destructuring the request object to get the body and params
+  const parseId = parseInt(id); //parseInt is used to convert string to number
+  const userIndex = userData.findIndex((user) => user.id === parseId); //findIndex is used to find the index of the user with the given id
 
-    
-  } = req;
-
-  const parsedId = parseInt(id);
-  const userIndex = userData.findIndex((user)=>user.id === parsedId);
-
-  if(userIndex === -1){
-    res.status(404).send("User Not Found");
+  if (userIndex === -1) {
+    return res.status(404).send({
+      message: "User not found",
+    });
   }
 
   userData[userIndex] = {
-    id: parsedId,
-    ...body
+    id: parseId,
+    ...body,
+  };
+
+  res.status(200).send({
+    message: "User updated successfully",
+    data: userData[userIndex],
+  });
+});
+// *4. PATCH request(It is used to update part of the data on the server) --> USed when we want to update specific part of the data of the user
+app.patch("/api/v1/users/:id", (req, res) => {
+  const {
+    body,
+    params: { id },
+  } = req; //This syntax is another way of destructuring the request object to get the body and params
+  const parseId = parseInt(id); //parseInt is used to convert string to number
+  const userIndex = userData.findIndex((user) => user.id === parseId); //findIndex is used to find the index of the user with the given id
+
+  if (userIndex === -1) {
+    return res.status(404).send({
+      message: "User not found",
+    });
   }
 
-  res.status(201).send({
-    message: "User Updated",
-    data: userData[userIndex]
+  userData[userIndex] = {
+    ...userData[userIndex],
+    ...body,
+  };
+
+  res.status(200).send({
+    message: "User updated successfully",
+    data: userData[userIndex],
   });
 });
 
-// *4. PATCH Request ( UPDATE SPECIFIC FIELD)
-app.patch("/api/v1/users/:id", (req, res) => {
-    const {
-      body,
-      params: { id },
-  
-      
-    } = req;
-  
-    const parsedId = parseInt(id);
-    const userIndex = userData.findIndex((user)=>user.id === parsedId);
-  
-    if(userIndex === -1){
-      res.status(404).send("User Not Found");
-    }
-  
-    userData[userIndex] = {
-      ...userData[userIndex], ...body
-    }
-  
-    res.status(201).send({
-      message: "User Updated",
-      data: userData[userIndex]
-    });
-  });
-
-// *5. DELETE Request ( it is for deleting data on server)
-
-// Asignment: Implement DELETE Request
+// *5. DELETE request(It is used to delete data from the server)
 
 app.listen(PORT, (req, res) => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-
-// Assignment: Implement DELETE Request
-// filter , find and spread operator , middleware
+//assignment: IJmplement the DELETE request to delete a user from the server
+// read about filter , find , findIndex and map methods in javascript
+// study about middleware in express js
