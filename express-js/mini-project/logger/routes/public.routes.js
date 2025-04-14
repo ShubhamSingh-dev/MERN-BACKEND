@@ -5,14 +5,14 @@ import { generateToken } from '../utils/token-utils.js';
 const router = express.Router();
 
 
-router.get("/generate-token" ,(req , res)=>{
+router.get("/generate-token" , (req , res) => {
     const token = generateToken();
 
     res.status(200).send({
         message:"Token generated please save it for future use",
         token: token
     })
-} )
+})
 
 
 router.get("/" , (req , res)=>{
@@ -20,7 +20,7 @@ router.get("/" , (req , res)=>{
         message:"Welcome to the home page🏡"
     })
 })
-
+ // This are the routes for the public API
 // Generate-token
 // Home route
 
