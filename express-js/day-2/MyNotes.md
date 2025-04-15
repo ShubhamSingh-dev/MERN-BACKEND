@@ -53,3 +53,4 @@ eg: http://localhost:3000/api/v1/users/create-user
 http://localhost:3000/api/v1/users/getAllUser
 
 
+NOTE : MIddleware should have their own folder name middleware and then access in index.js 

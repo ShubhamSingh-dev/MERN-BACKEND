@@ -22,7 +22,7 @@ app.use(express.json());
 //!Global custom Middleware
 app.use(logMiddleware);
 
-// ?Middleware to routes
+// ?Middleware to use routes
 app.use("/public", publicRoutes);
 app.use("/private", privateRoutes);
 
