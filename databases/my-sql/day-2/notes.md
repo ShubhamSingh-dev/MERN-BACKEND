@@ -273,3 +273,6 @@ SELECT * FROM Employees
 LIMIT 10 OFFSET 20;
 ```
 ding of SQL basics. Let me know if you need more examples or further clarification on any topic!
+
+
+

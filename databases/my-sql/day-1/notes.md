@@ -15,6 +15,16 @@ A database is an organized collection of data stored electronically for easy acc
 ---
 
 #### **2. Types of Databases**
+```
+actually there are 6 : 
+1. relational DB
+2. noSQL DB / nonrelational
+3. obj oriented db 
+4. graph db
+5. key-value
+6. column-oriented DB
+```
+
 1. **Relational Database**: Organizes data into tables with rows and columns. 
    - Examples: MySQL, PostgreSQL, Oracle, SQL Server.
    

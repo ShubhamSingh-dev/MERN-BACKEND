@@ -54,3 +54,59 @@ http://localhost:3000/api/v1/users/getAllUser
 
 
 NOTE : MIddleware should have their own folder name middleware and then access in index.js 
+
+# Token Authentication Flow
+
+## How Tokens Work
+1. **Get Token**:
+   ```http
+   POST /public/generate-token
+   ```
+   Returns: 
+   ```json
+   { "token": "abc123..." }  // 32-character hex
+   ```
+
+2. **Use Token**:
+   - Add to request headers:
+     ```http
+     GET /private/dashboard
+     Authorization: abc123...
+     ```
+   - Or as query param (testing only):
+     ```http
+     GET /private/dashboard?token=abc123...
+     ```
+
+## Thunder Client Setup
+1. Create request to private route
+2. In "Headers" tab add:
+   ```
+   Key: Authorization  
+   Value: [paste_token_here]
+   ```
+
+## Middleware Code
+```javascript
+// auth.middleware.js
+const token = req.headers['authorization'] || req.query.token;
+
+if (!token || !validateToken(token)) {
+  return res.status(401).send("Invalid token");
+}
+next();
+```
+
+## Token Validation
+```javascript
+// token-utils.js
+export const validateToken = (token) => {
+  return token && token.length === 32;
+}
+```
+
+## Key Points
+- Always prefer `Authorization` header over query params
+- Tokens expire when server restarts (stateless)
+- Check server logs if requests fail
+```
