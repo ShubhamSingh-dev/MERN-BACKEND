@@ -108,7 +108,10 @@ db.dropDatabase();
 db.createCollection("myCollection");
 
 // Drop a collection
-db.myCollection.drop();
+db.myCollection.drop(); //your collections name 
+
+//show all collection
+show collections;
 ```
 
 ---
@@ -122,6 +125,13 @@ db.myCollection.insertOne({
    "name": "John",
    "age": 30
 });
+
+//this gives this as a output,
+{                                                                      
+  acknowledged: true,
+  insertedId: ObjectId('6806645b0b3a31a36b228fb5')
+}
+//gives you an object id
 ```
 
 ### **Multiple Document Insert**
