@@ -29,6 +29,8 @@ mongoimport --db video --collection comments --file day-3\video.json --jsonArray
 - `--collection products`: Specifies the collection name as "products".
 - `--file products.json`: Specifies the input file as "products.json".
 
+mongoimport --db shop --collection products --file "C:\Users\ms077\OneDrive\Desktop\Mern Backend\databases\mongodb\day-2\jsons\product.json" --jsonArray
+
 ### Handling Array of Objects:
 
 If your JSON file contains an array of objects, you should use the `--jsonArray` flag. This is necessary to inform `mongoimport` that the input file contains an array.
