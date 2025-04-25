@@ -389,6 +389,10 @@ db.monthlyBudget.insertMany( [
    { _id : 4, category : "misc", budget : 500, spent : 300 },
    { _id : 5, category : "travel", budget : 200, spent : 650 }
 ] )
+
+//used in same document 
+db.monthlyBudget.find({ $expr: { $gt: [ "$spent","$budget"]}})
+
 - **Explanation**:
   - `$gt`: Checks if the first argument (`price`) is greater than the second argument (`cost`).
   - `$expr`: Allows the use of aggregation operators like `$gt`, `$lt`, `$add`, `$subtract`, etc., in queries.
