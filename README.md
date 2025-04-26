@@ -1,4 +1,4 @@
-# Backend Development Course - 60 Days Mastery
+# Backend Development Course - 60 Days Mastery.
 
 Welcome to the **Backend Development Mastery Course**! Over the next 60 days, you'll learn how to build robust, scalable, and efficient backend systems using the latest tools and technologies. This course is designed for beginners and intermediate developers looking to become job-ready in backend development.
 
