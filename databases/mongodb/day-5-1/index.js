@@ -9,8 +9,11 @@ const app = express();
 
 // Connect to db
 app.use(express.json())
-connectDB();
+connectDB(); // connect to db
+
+
 app.use("/api/" , userRoute)
+
 
 app.get("/" , (req , res)=>{
         res.send("Hello world")

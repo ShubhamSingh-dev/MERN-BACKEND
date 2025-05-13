@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-
+//creating a schema
 const userSchema = new Schema({
     name:{
         type:String,
@@ -21,7 +21,7 @@ const userSchema = new Schema({
     }
 })
 
-
+//creating a model using the schema
 const UserModel = model("User" ,userSchema );
 
 export default UserModel;
