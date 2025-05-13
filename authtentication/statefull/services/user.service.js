@@ -1,8 +1,8 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"; //used for hashing passwords
 import {User} from "../models/user.model.js"
 
 export const registerUser = async(username , password)=>{
-    const hashedPassword = await bcrypt.hash(password , 10);
+    const hashedPassword = await bcrypt.hash(password , 10); //bcrypt hashing takes time / 10 is salt rounds
     const user = new User({username , password:hashedPassword});
     return await user.save()
 }

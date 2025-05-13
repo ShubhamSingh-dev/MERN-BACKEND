@@ -5,7 +5,7 @@ export const signup = async(req , res)=>{
     const {username , password} = req.body;
 
     try {
-        const user = await registerUser(username , password);
+        const user = await registerUser(username , password); 
         res.status(201).json({
             success:true,
             message:"User registered Successfully!",
@@ -42,4 +42,6 @@ export const login = async(req , res)=>{
     }
 }
 
-export const logout = ()=>{}
+export const logout = async(req , res)=>{
+    
+}
