@@ -2,28 +2,32 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-import authRoutes from "./routes/auth.routes.js"
-import privateRoutes from "./routes/private.routes.js"
+import authRoutes from "./routes/auth.routes.js";
+import privateRoutes from "./routes/private.routes.js";
 
-dotenv.config()
-const PORT = process.env.PORT || 5000
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
 const app = express();
-app.use(express.json())
+app.use(express.json());
 
+//connect to mongodb
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
 
-// connect mongodb
-mongoose.connect(process.env.MONGO_URI).then(()=>console.log("Mongodb connected"))
-.catch((err)=>console.log("Mongodb connection error" , err.message))
+app.use("/auth", authRoutes);
+app.use("/private", privateRoutes);
 
+app.listen(PORT, () => {
+  console.log(`Server is running on port http://localhost:${process.env.PORT}`);
+});
 
-// Routes
-
-app.use("/auth" , authRoutes);
-app.use("/private" , privateRoutes)
-
-app.listen(PORT , ()=>{
-    console.log(`Server is running at port no http://localhost:${PORT}`)
-})
-
-// authentication routes ( SIGNUP AND LOGIN)
-// PRIVATE ROUTES ( JWT ( AUTHENTICATE))
+// What are we making a stateless auth system
+// authentication routes (Signup, login)
+// Private route (JWT (only access if authenticated))
