@@ -2,9 +2,10 @@ import express from "express";
 import crypto from "crypto";
 
 const app = express();
+const PORT = 3000;
 app.use(express.json());
 
-// Generate RSA key pair
+//generate an RSA key pair
 const generateKeys = () => {
   const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
     modulusLength: 2048,
@@ -21,16 +22,21 @@ const generateKeys = () => {
   return { publicKey, privateKey };
 };
 
-const encrypt = (publicKey , message)=>{
-    const encrypted = crypto.publicEncrypt(publicKey , Buffer.from(message));
-    return encrypted.toString("base64");
-}
+// *for encryption always public key is used
+const encrypt = (publicKey, message) => {
+  const encrypted = crypto.publicEncrypt(publicKey, Buffer.from(message));
+  return encrypted.toString("base64"); //base64 is used to convert binary data to string
+};
 
-const decrypt = (privateKey , encryptedMessage)=>{
-    const decrypted = crypto.privateDecrypt(privateKey , Buffer.from(encryptedMessage , "base64"))
+// *for decryption always private key is used
+const decrypt = (privateKey, encryptedMessage) => {
+  const decrypted = crypto.privateDecrypt(
+    privateKey,
+    Buffer.from(encryptedMessage, "base64")
+  );
+  return decrypted.toString("utf-8");
+};
 
-    return decrypted.toString("utf8")
-}
 const keys = generateKeys();
 const publicKey = keys.publicKey;
 const privateKey = keys.privateKey;
@@ -41,21 +47,22 @@ app.get("/", (req, res) => {
 
 app.post("/encrypt", (req, res) => {
   const { message } = req.body;
-  const encryptedData = encrypt(publicKey , message)
-
-  res.json({encryptedData});
+  //operation for encryption
+  const encryptedData = encrypt(publicKey, message);
+  //response in json
+  res.json({ encryptedData });
 });
 
 app.post("/decrypt", (req, res) => {
   const { encryptedMessage } = req.body;
-  const decrypted = decrypt(privateKey , encryptedMessage);
- 
-
-  res.json({decrypted});
+  //operation for decryption
+  const decryptedData = decrypt(privateKey, encryptedMessage);
+  //response in json
+  res.json({ decryptedData });
 });
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
-  console.log("Public key:\n", publicKey);
-  console.log("Private key:\n", privateKey);
+app.listen(PORT, () => {
+  console.log(`Server is running on port http://localhost:${PORT}`);
+  // console.log(`Public Key:\n ${publicKey}`);
+  // console.log(`Private Key:\n ${privateKey}`); never log private key in production
 });
