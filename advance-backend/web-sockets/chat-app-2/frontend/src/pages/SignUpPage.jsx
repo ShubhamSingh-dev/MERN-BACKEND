@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useAuthStore";
 import {
   Eye,
   EyeOff,
@@ -13,6 +12,7 @@ import { Link } from "react-router-dom";
 
 import AuthImagePattern from "../components/AuthImagePattern";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../store/useAuthStore";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,10 +38,10 @@ const SignUpPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const success = validateForm();
-
-    if (success === true) signup(formData);
+    if (success) {
+      signup(formData);
+    }
   };
 
   return (
@@ -140,16 +140,18 @@ const SignUpPage = () => {
             <button
               type="submit"
               className="btn btn-primary w-full"
-              disabled={isSigningUp}
+              //disabled={isSigningUp}
             >
-              {isSigningUp ? (
+              {" "}
+              Create Account
+              {/* {isSigningUp ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
                   Loading...
                 </>
               ) : (
                 "Create Account"
-              )}
+              )} */}
             </button>
           </form>
 
