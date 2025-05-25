@@ -91,3 +91,32 @@ export const login = async (req, res) => {
     });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { channelName, phone } = req.body;
+    let updateData = { channelName, phone };
+
+    if (req.files && req.files.logoUrl) {
+      const uploadImage = await cloudinary.uploader.upload(
+        req.files.logoUrl.tempFilePath
+      );
+      updateData.logoUrl = uploadImage.secure_url;
+      updateData.logoId = uploadImage.public_id;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, updateData, {
+      new: true,
+    });
+
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully", updatedUser });
+  } catch (error) {
+    console.log("Error in updateProfile controller", error);
+    res.status(500).json({
+      message: "Error in updateProfile controller",
+      error,
+    });
+  }
+};
