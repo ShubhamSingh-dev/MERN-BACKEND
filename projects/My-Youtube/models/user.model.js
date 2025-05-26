@@ -28,10 +28,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subscribers: {
-      type: Number,
-      default: 0,
-    },
     subscribedChannels: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -41,6 +37,16 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Virtual field for subscribers count
+userSchema.virtual("subscribers").get(function () {
+  // This will be set dynamically in the controller
+  return this._subscribersCount || 0;
+});
+
+// Ensure virtuals are included in JSON and Object output
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
 
 const userModel = mongoose.model("User", userSchema);
 export default userModel;

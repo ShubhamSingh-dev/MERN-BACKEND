@@ -120,3 +120,53 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const subscribe = async (req, res) => {
+  try {
+    const { channelId } = req.body;
+    if (req.user._id.toString() === channelId.toString()) {
+      return res.status(400).json({
+        message: "You cannot subscribe to your own channel",
+      });
+    }
+
+    // Check if already subscribed
+    const currentUser = await User.findById(req.user._id);
+    if (currentUser.subscribedChannels.includes(channelId)) {
+      return res.status(400).json({
+        message: "Already subscribed to this channel",
+      });
+    }
+
+    // Add to subscribedChannels (no increment needed, count will be virtual)
+    await User.findByIdAndUpdate(req.user._id, {
+      $addToSet: { subscribedChannels: channelId },
+    });
+
+    // Get the updated user (subscriber)
+    const updatedCurrentUser = await User.findById(req.user._id);
+
+    // Get the channel user and count subscribers dynamically
+    const subscribedUser = await User.findById(channelId);
+    if (!subscribedUser) {
+      return res.status(404).json({ message: "Channel not found" });
+    }
+    // Count how many users have this channelId in their subscribedChannels
+    const subscribersCount = await User.countDocuments({
+      subscribedChannels: channelId,
+    });
+    // Attach the count for the virtual field
+    subscribedUser._doc._subscribersCount = subscribersCount;
+
+    res.status(200).json({
+      message: "Subscribed successfully",
+      data: { currentUser: updatedCurrentUser, subscribedUser },
+    });
+  } catch (error) {
+    console.log("Error in subscribe controller", error);
+    res.status(500).json({
+      message: "Error in subscribe controller",
+      error,
+    });
+  }
+};
