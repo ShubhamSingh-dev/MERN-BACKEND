@@ -1,7 +1,11 @@
 import React from "react";
 
-const navbar = () => {
-  return <div>navbar</div>;
+const Navbar = () => {
+  return (
+    <>
+      <div className="bg-black w-full fixed h-[4.5rem] border-b flex mx-[3.7rem] px-[]"></div>
+    </>
+  );
 };
 
-export default navbar;
+export default Navbar;

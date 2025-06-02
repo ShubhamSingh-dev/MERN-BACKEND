@@ -3,7 +3,7 @@ import Hero from "../features/home/components/hero";
 
 const Home = () => {
   return (
-    <div className="mt-10 flex flex-row justify-between items-center px-10">
+    <div className="flex flex-row justify-between items-center px-10 w-full mt-15">
       <Hero />
     </div>
   );
